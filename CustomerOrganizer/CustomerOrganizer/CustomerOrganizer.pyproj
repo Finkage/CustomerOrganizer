@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FileIO.py" />
     <Compile Include="MainWindow.py">
       <SubType>Code</SubType>
     </Compile>
