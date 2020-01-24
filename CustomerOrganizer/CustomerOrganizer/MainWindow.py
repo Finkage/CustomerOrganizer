@@ -2,13 +2,17 @@ import tkinter
 from tkinter import *
 import FileIO
 from FileIO import *
+import FieldsConfig
+from FieldsConfig import *
 
 class Main_Window(tkinter.Tk):
     def __init__(self, master = None):
         super().__init__(master)
         self.master = master
         self.customer = FileIO()
+        self.fields_config = FieldsConfig()
         self.tool_bar()
+        self.setup_fields()
 
     def do_nothing():
         '''do nothing at all'''
@@ -28,3 +32,6 @@ class Main_Window(tkinter.Tk):
         menubar.add_cascade(label = "File", menu = filemenu)
 
         self.config(menu = menubar)
+
+    def setup_fields(self):
+        self.fields_config.load_config()
