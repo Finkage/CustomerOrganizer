@@ -2,7 +2,7 @@ import os
 
 # Save and load customer's data file.
 class FileIO():
-	def saveFile(self):
+	def save_file(self):
 		try:
 			os.makedirs("data")
 			print("Data folder created")
@@ -13,5 +13,3 @@ class FileIO():
 		file.write("this is a test")
 		file.close()
 		print("Saved file")
-
-
