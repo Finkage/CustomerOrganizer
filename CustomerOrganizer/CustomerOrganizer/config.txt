@@ -1,0 +1,22 @@
+CUSTOMER
+First name
+Last name
+Address
+City
+Phone number
+
+VEHICLE
+Year
+Make
+Model
+VIN
+Engine
+Submodel
+Mileage in
+Lic
+
+NOTES
+Customer complaints
+Services rendered
+Recommended services
+Notes

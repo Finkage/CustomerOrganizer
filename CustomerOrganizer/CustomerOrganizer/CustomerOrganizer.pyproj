@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomerClass.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FieldsConfig.py">
       <SubType>Code</SubType>
     </Compile>
