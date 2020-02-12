@@ -6,22 +6,29 @@ from tkinter import filedialog
 # Save and load customer's data file.
 class FileIO():
     DATA_FOLDER_NAME = "data"
-    DATA_FILE_NAME = "test.txt"
+#    DATA_FILE_NAME = "test.txt"
     FORMATTED_DATE = date.today().strftime("%m/%d/%y")
     file = None
 
-    def save_file(self):
-        try:
-            os.makedirs(self.DATA_FOLDER_NAME)
-            print("Data folder created")
-        except FileExistsError:
-            print("Data folder already exists")  
+    # saves file, creates new file if it doesnt already exist
+    def save_file(self, file_data, file_name):
+        # if saving a new file, all the data will be created into a new file
+        if self.file == None:
+            try:
+                os.makedirs(self.DATA_FOLDER_NAME)
+                print("Data folder created")
+            except FileExistsError:
+                print("Data folder already exists")  
 
-        file_name = self.DATA_FOLDER_NAME + self.DATA_FILE_NAME
-        file = open(file_name, "w+")
-        file.write("this is a test")
-        file.close()
-        print("Saved file")
+            file_name = self.DATA_FOLDER_NAME + "\\" + file_name + ".txt"
+            self.file = open(file_name, "w+")
+
+            for line in file_data:
+                self.file.write(line)
+        # if the file is already one that is being worked on, it will simply be overwritten with the new info
+        else:
+            for line in file_data:
+                self.file.write(line)
 
     def load_file(self, window):
         load_window = window
@@ -39,3 +46,4 @@ class FileIO():
     def close_file(self):
         if self.file is not None:
             self.file.close()
+        self.file = None
