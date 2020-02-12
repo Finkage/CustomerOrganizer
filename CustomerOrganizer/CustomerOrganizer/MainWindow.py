@@ -65,6 +65,10 @@ class Main_Window(Tk):
         #self.customer.save()
 
 
+    def quit(self):
+        self.destroy()
+
+
     # toolbar initialization
     def tool_bar(self):
         menubar = Menu(self)
