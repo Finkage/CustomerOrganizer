@@ -4,6 +4,7 @@ from FieldsConfig import *
 
 class Customer():
     file = FileIO()
+    fields_config = FieldsConfig()
     data = {}
     vehicle = {}
     notes = {}
@@ -12,16 +13,19 @@ class Customer():
         self.data.clear()
         self.vehicle.clear()
         self.notes.clear()
-
         self.file.close_file()
 
 
     def new(self):
-        self.file.save_file()
-
+        self.fields_config.load_config()
+        self.data = self.fields_config.dict_customer
+        self.vehicle = self.fields_config.dict_vehicle
+        self.notes = self.fields_config.dict_notes
     
+
     def open(self, window):
         try:
+            self.data.clear()
             lines = self.file.load_file(window)
             dictionary = None
 
@@ -58,8 +62,6 @@ class Customer():
             print("Vehicle dictionary: ", self.vehicle)
             print("Notes dictionary: ", self.notes)
 
-
-
         except:
             print("Error: Something has gone wrong while attempting to parse the file.")
 
@@ -74,8 +76,8 @@ class Customer():
 
     def get_data(self):
         return self.data
+    
 
-        
     def get_vehicle(self):
         return self.vehicle
 

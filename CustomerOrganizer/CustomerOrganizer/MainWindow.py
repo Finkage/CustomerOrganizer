@@ -17,7 +17,7 @@ class Main_Window(Tk):
 
         # initializing functions
         self.tool_bar()
-        self.setup_fields()
+        self.new_customer()
 
 
     # clear current data
@@ -30,8 +30,8 @@ class Main_Window(Tk):
     # Close current customer and open a new blank customer
     def new_customer(self):
         self.customer.close()
-        self.customer.new()
         self.clear_data()
+        self.customer.new()
         self.display_customer()
 
 
@@ -80,11 +80,6 @@ class Main_Window(Tk):
         menubar.add_cascade(label = "File", menu = filemenu)
 
         self.config(menu = menubar)
-
-
-    # loads config file
-    def setup_fields(self):
-        self.fields_config.load_config()
 
      
     # display customer data onto GUI
