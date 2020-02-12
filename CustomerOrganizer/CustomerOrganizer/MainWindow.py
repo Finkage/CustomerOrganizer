@@ -106,16 +106,8 @@ class Main_Window(Tk):
         bi_title = Label(self.frames["customer_info"], text = "Customer Info", font = 'Helvetica 16 bold')
         bi_title.grid(row = 0, columnspan = 2)
 
-        iteration = 1
         # display all customer data into the frame
-        for data in self.fields_config.dict_customer.keys():
-            entry_label = Label(master = self.frames["customer_info"], text = data)
-            entry_label.grid(row = iteration)
-            self.customer_widgets[data] = Text(master = self.frames["customer_info"], height = 1, width = 20)
-            if data in self.customer.get_data():
-                self.customer_widgets[data].config(text = self.customer.get_data()[data])
-            self.customer_widgets[data].grid(row = iteration, column = 1)
-            iteration += 1
+        self.create_widgets(self.customer.get_data(), "customer_info", 1, 20, 1)
 
         # frame to hold vehicle info
         self.frames["vehicle_info"] = Frame(self.frames["top"])
@@ -125,16 +117,8 @@ class Main_Window(Tk):
         vi_title = Label(self.frames["vehicle_info"], text = "Vehicle Info", font = 'Helvetica 16 bold')
         vi_title.grid(row = 0, columnspan = 2)
 
-        iteration = 1
         # display all vehicle data into the frame
-        for data in self.fields_config.dict_vehicle.keys():
-            entry_label = Label(master = self.frames["vehicle_info"], text = data)
-            entry_label.grid(row = iteration)
-            self.vehicle_widgets[data] = Text(master = self.frames["vehicle_info"], height = 1, width = 20)
-            if data in self.customer.get_vehicle():
-                self.vehicle_widgets[data].config(text = self.customer.get_vehicle()[data])
-            self.vehicle_widgets[data].grid(row = iteration, column = 1)
-            iteration += 1
+        self.create_widgets(self.customer.get_vehicle(), "vehicle_info", 1, 20, 1)
 
         # frame to hold note info
         self.frames["note_info"] = Frame(self)
@@ -144,13 +128,25 @@ class Main_Window(Tk):
         n_title = Label(self.frames["note_info"], text = "Notes", font = 'Helvetica 16 bold')
         n_title.grid(row = 0, columnspan = 2)
 
-        iteration = 2
-        # display all vehicle data into the frame
-        for data in self.fields_config.dict_notes.keys():
-            entry_label = Label(master = self.frames["note_info"], text = data)
+        # display all notes data into the frame
+        self.create_widgets(self.customer.get_notes(), "note_info", 5, 40, 2)
+
+    def create_widgets(self, dictionary, section, box_height, box_width, iteration):
+        for key in dictionary.keys():
+            data = dictionary[key]
+            new_box_height = box_height
+
+            # Create label
+            entry_label = Label(master = self.frames[section], text = key)
             entry_label.grid(row = iteration)
-            self.note_widgets[data] = Text(master = self.frames["note_info"] , height = 5, width = 40)
-            if data in self.customer.get_notes():
-                self.note_widgets[data].config(text = self.customer.get_notes()[data])
-            self.note_widgets[data].grid(row = iteration, column = 1)
+            
+            # If data has a lot of characters, expand box size.            
+            if len(data) > box_width * box_height:
+                new_box_height = box_height + len(data) / box_width
+            
+            # Create text box
+            entry_box = Text(master = self.frames[section], height = new_box_height, width = box_width, wrap = WORD)
+            entry_box.grid(row = iteration, column = 1)
+            entry_box.insert(END, data)
+
             iteration += 1

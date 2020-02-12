@@ -1,4 +1,6 @@
+import re
 from FileIO import *
+from FieldsConfig import *
 
 class Customer():
     file = FileIO()
@@ -19,9 +21,47 @@ class Customer():
 
     
     def open(self, window):
-        self.file.load_file(window)
+        try:
+            lines = self.file.load_file(window)
+            dictionary = None
 
-        # parsing goes here
+            # Parse through lines in file and populate dictionary with values.
+            for line in lines:
+                line_s = line.strip().lower()
+                date_string = re.compile(".*/.*/.*")
+
+                # If new line, we are in a new section and need to determine what section we are in.
+                if line_s == "" or date_string.match(line_s) is not None:
+                    dictionary = None
+                    continue
+                # Determine which section we are parsing through.
+                # Only valid sections are customer, vehicle, and notes.
+                elif dictionary is None:
+                    if line_s in FieldsConfig.DEFAULT_SECTIONS:
+                        if line_s == "customer":
+                            dictionary = self.data
+                        elif line_s == "vehicle":
+                            dictionary = self.vehicle
+                        elif line_s == "notes":
+                            dictionary = self.notes
+                        continue
+                    else:
+                        print("Error: Unable to determine section.")
+                        # TO-DO: Popup screen with error here.
+                        return
+                # Populate dictionary using : as a delimiter. Left of delimiter is key; right of delimiter is value.
+                else:
+                    pair = line.split(":", 1)
+                    FieldsConfig().update_field(dictionary, pair[0].strip(), pair[1].strip())
+
+            print("\nCustomer dictionary: ", self.data)
+            print("Vehicle dictionary: ", self.vehicle)
+            print("Notes dictionary: ", self.notes)
+
+
+
+        except:
+            print("Error: Something has gone wrong while attempting to parse the file.")
 
 
     def save(self, new_data, new_vehicle, new_notes):
@@ -42,3 +82,6 @@ class Customer():
 
     def get_notes(self):
         return self.notes
+
+
+        

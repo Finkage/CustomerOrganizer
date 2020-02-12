@@ -29,9 +29,11 @@ class FileIO():
                                                           title = "Select File", 
                                                           filetypes = (("Text Files", "*.txt"), ("All Files", "*.*")))
         try:
-            self.file = open(load_window.filename)
+            self.file = open(load_window.filename, "r")
+            return self.file.readlines()
         except FileNotFoundError:
             print("invalid file opened")
+            return None
 
 
     def close_file(self):
