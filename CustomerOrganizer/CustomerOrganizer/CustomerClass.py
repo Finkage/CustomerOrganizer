@@ -52,7 +52,7 @@ class Customer():
                     else:
                         print("Error: Unable to determine section.")
                         # TO-DO: Popup screen with error here.
-                        return
+                        return None
                 # Populate dictionary using : as a delimiter. Left of delimiter is key; right of delimiter is value.
                 else:
                     pair = line.split(":", 1)
@@ -61,9 +61,12 @@ class Customer():
             print("\nCustomer dictionary: ", self.data)
             print("Vehicle dictionary: ", self.vehicle)
             print("Notes dictionary: ", self.notes)
+            
+            return 0
 
         except:
             print("Error: Something has gone wrong while attempting to parse the file.")
+            return None
 
 
     def save(self, new_data, new_vehicle, new_notes):

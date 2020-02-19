@@ -37,9 +37,9 @@ class Main_Window(Tk):
 
     # open a customer file and display it onto GUI
     def open_customer(self):
-        self.customer.open(self)
-        self.clear_data()
-        self.display_customer()
+        if self.customer.open(self) is not None:
+            self.clear_data()
+            self.display_customer()
 
 
     # saves customer data currently input into file
