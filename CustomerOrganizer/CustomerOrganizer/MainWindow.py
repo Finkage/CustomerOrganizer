@@ -53,16 +53,14 @@ class Main_Window(Tk):
             tmpVehicle[data] = self.vehicle_widgets[data].get('1.0', 'end')
         for data in self.note_widgets.keys():
             tmpNotes[data] = self.note_widgets[data].get('1.0', 'end')
-
         self.customer.save(tmpData, tmpVehicle, tmpNotes)
 
 
     # saves current customer as a new customer, must have different name or liscense plate number
-    def save_customer_as(self):
-        self.customer.close()
-        self.customer.new()
-
-        #self.customer.save()
+#    def save_customer_as(self):
+#        self.customer.close()
+#        self.customer.new()
+#        self.customer.save()
 
 
     def quit(self):
@@ -77,7 +75,7 @@ class Main_Window(Tk):
         filemenu.add_command(label = "New Customer", command = self.new_customer)
         filemenu.add_command(label = "Open Customer", command = self.open_customer)
         filemenu.add_command(label = "Save Customer", command = self.save_customer)
-        filemenu.add_command(label = "Save Customer as...", command = self.save_customer_as)
+#        filemenu.add_command(label = "Save Customer as...", command = self.save_customer_as)
         filemenu.add_separator()
         filemenu.add_command(label = "Exit", command = self.quit)
 
@@ -147,5 +145,11 @@ class Main_Window(Tk):
             entry_box = Text(master = self.frames[section], height = new_box_height, width = box_width, wrap = WORD)
             entry_box.grid(row = iteration, column = 1)
             entry_box.insert(END, data)
+            if section is "customer_info":
+                self.customer_widgets[key] = entry_box
+            elif section is "vehicle_info":
+                self.vehicle_widgets[key] = entry_box
+            elif section is "note_info":
+                self.note_widgets[key] = entry_box
 
             iteration += 1

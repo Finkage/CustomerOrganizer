@@ -13,6 +13,7 @@ class Customer():
         self.data.clear()
         self.vehicle.clear()
         self.notes.clear()
+
         self.file.close_file()
 
 
@@ -73,8 +74,21 @@ class Customer():
         self.data = new_data
         self.vehicle = new_vehicle
         self.notes = new_notes
+        total_data = []
 
-        # parsing goes here
+        total_data.append("CUSTOMER\n")
+        for key in self.data.keys():
+            total_data.append(key + ": " + self.data[key])
+        total_data.append("\n")
+        total_data.append("VEHICLE\n")
+        for key in self.vehicle.keys():
+            total_data.append(key + ": " + self.vehicle[key])
+        total_data.append("\n")
+        total_data.append("NOTES\n")
+        for key in self.notes.keys():
+            total_data.append(key + ": " + self.notes[key])
+
+        self.file.save_file(total_data, self.data["Last name"] + "_" + self.data["First name"][0] + self.vehicle["VIN"][0:2])
 
 
     def get_data(self):
