@@ -54,9 +54,6 @@ class FieldsConfig():
 			c_file.close()
 			print("Config file loaded successfully.")
 
-			print("\nCustomer dictionary: ", self.dict_customer)
-			print("Vehicle dictionary: ", self.dict_vehicle)
-			print("Notes dictionary: ", self.dict_notes)
 		except IOError:
 			print("Could not find " + self.CONFIG_FILE_NAME)
 			self.create_config()

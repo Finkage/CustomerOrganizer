@@ -20,17 +20,16 @@ class FileIO():
             except FileExistsError:
                 print("Data folder already exists")  
 
-            file_location = self.DATA_FOLDER_NAME + "\\" + file_name + ".txt"
-            self.file = open(self.file_location, "w")
-
+            self.file_location = self.DATA_FOLDER_NAME + "\\" + file_name + ".txt"
+            self.file = open(self.file_location, "w+")
             self.file.write(self.FORMATTED_DATE + "\n\n")
 
             for line in file_data:
                 self.file.write(line)
+
         # if the file is already one that is being worked on, it will simply be overwritten with the new info
         else:
             self.file = open(self.file_location, "w")
-
             self.file.write(self.FORMATTED_DATE + "\n\n")
 
             for line in file_data:

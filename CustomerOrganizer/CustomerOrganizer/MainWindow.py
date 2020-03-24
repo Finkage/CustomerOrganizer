@@ -48,11 +48,11 @@ class Main_Window(Tk):
         tmpVehicle = {}
         tmpNotes ={}
         for data in self.customer_widgets.keys():
-            tmpData[data] = self.customer_widgets[data].get('1.0', 'end')
+            tmpData[data] = self.customer_widgets[data].get('1.0', 'end').strip()
         for data in self.vehicle_widgets.keys():
-            tmpVehicle[data] = self.vehicle_widgets[data].get('1.0', 'end')
+            tmpVehicle[data] = self.vehicle_widgets[data].get('1.0', 'end').strip()
         for data in self.note_widgets.keys():
-            tmpNotes[data] = self.note_widgets[data].get('1.0', 'end')
+            tmpNotes[data] = self.note_widgets[data].get('1.0', 'end').strip()
         self.customer.save(tmpData, tmpVehicle, tmpNotes)
 
 

@@ -1,8 +1,13 @@
 import re
 from FileIO import *
 from FieldsConfig import *
+from tkinter import messagebox
 
 class Customer():
+    ERROR_MESSAGE_CUSTOMER_NAME = "Customer needs a first and last name."
+    ERROR_MESSAGE_LOAD = "Something has gone wrong while attempting to parse the file. Check formatting of file or open another file."
+    ERROR_MESSAGE_SAVE = "Unable to save file."
+
     file = FileIO()
     fields_config = FieldsConfig()
     data = {}
@@ -51,22 +56,15 @@ class Customer():
                             dictionary = self.notes
                         continue
                     else:
-                        print("Error: Unable to determine section.")
-                        # TO-DO: Popup screen with error here.
-                        return None
+                        raise
                 # Populate dictionary using : as a delimiter. Left of delimiter is key; right of delimiter is value.
                 else:
                     pair = line.split(":", 1)
                     FieldsConfig().update_field(dictionary, pair[0].strip(), pair[1].strip())
-
-            print("\nCustomer dictionary: ", self.data)
-            print("Vehicle dictionary: ", self.vehicle)
-            print("Notes dictionary: ", self.notes)
-            
             return 0
 
         except:
-            print("Error: Something has gone wrong while attempting to parse the file.")
+            messagebox.showerror("Error", self.ERROR_MESSAGE_LOAD)
             return None
 
 
@@ -76,19 +74,34 @@ class Customer():
         self.notes = new_notes
         total_data = []
 
-        total_data.append("CUSTOMER\n")
-        for key in self.data.keys():
-            total_data.append(key + ": " + self.data[key])
-        total_data.append("\n")
-        total_data.append("VEHICLE\n")
-        for key in self.vehicle.keys():
-            total_data.append(key + ": " + self.vehicle[key])
-        total_data.append("\n")
-        total_data.append("NOTES\n")
-        for key in self.notes.keys():
-            total_data.append(key + ": " + self.notes[key])
+        # Customer first and last name will be used for naming file. Whitespaces will not allowed in file name.
+        customer_first_name = self.data["First name"]
+        customer_last_name = self.data["Last name"].replace(" ", "")
 
-        self.file.save_file(total_data, self.data["Last name"] + "_" + self.data["First name"][0] + self.vehicle["VIN"][0:2])
+        total_data.append("CUSTOMER\n")
+
+        for key in self.data.keys():
+            total_data.append(key + ": " + self.data[key] + "\n")
+        
+        total_data.append("\nVEHICLE\n")
+        
+        for key in self.vehicle.keys():
+            total_data.append(key + ": " + self.vehicle[key] + "\n")
+        
+        total_data.append("\nNOTES\n")
+        
+        for key in self.notes.keys():
+            total_data.append(key + ": " + self.notes[key] + "\n")
+
+        # Return error if first name or last name is empty or whitespace.
+        if not customer_first_name or customer_first_name.isspace() or not customer_last_name or customer_last_name.isspace():
+            messagebox.showerror("Error", self.ERROR_MESSAGE_CUSTOMER_NAME)
+            return
+        
+        try:
+            self.file.save_file(total_data, customer_last_name + "_" + customer_first_name[0] + self.vehicle["VIN"][0:2])
+        except:
+            messagebox.showerror("Error", self.ERROR_MESSAGE_SAVE)
 
 
     def get_data(self):
