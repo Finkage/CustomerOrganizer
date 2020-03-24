@@ -1,11 +1,19 @@
 from tkinter import *
 from FieldsConfig import *
 from CustomerClass import *
+from SettingsWindow import *
 
 class Main_Window(Tk):
+    MAIN_WINDOW_TITLE = "Customer Organizer"
+
     def __init__(self, master = None):
         super().__init__(master)
         self.master = master
+
+        # hide window while we create widgets
+        self.withdraw()
+
+        self.title(self.MAIN_WINDOW_TITLE)
 
         # initializing variables
         self.customer = Customer()
@@ -18,6 +26,33 @@ class Main_Window(Tk):
         # initializing functions
         self.tool_bar()
         self.new_customer()
+
+        # center window to screen
+        self.center_window(self)
+
+        # display window after it was hidden
+        self.deiconify()
+        
+
+    # Place window in center of monitor screen
+    def center_window(self, window, width_percentage = 0.5, height_percentage = 0.5):
+        # Call update to update the window's size after widgets added
+        window.update()
+
+        # Window dimensions
+        window_width = window.winfo_width()
+        window_height = window.winfo_height()
+
+        # Screen resolution
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        # Offsets
+        screen_width_offset = (int)(screen_width / 2 - window_width * width_percentage)
+        screen_height_offset = (int)(screen_height / 2 - window_height * height_percentage)
+
+        # Reposition window to center
+        window.geometry("+{}+{}".format(screen_width_offset, screen_height_offset))
 
 
     # clear current data
@@ -63,6 +98,10 @@ class Main_Window(Tk):
 #        self.customer.save()
 
 
+    def open_settings_window(self):
+        settings = Settings_Window(self)
+
+
     def quit(self):
         self.destroy()
 
@@ -76,6 +115,8 @@ class Main_Window(Tk):
         filemenu.add_command(label = "Open Customer", command = self.open_customer)
         filemenu.add_command(label = "Save Customer", command = self.save_customer)
 #        filemenu.add_command(label = "Save Customer as...", command = self.save_customer_as)
+        filemenu.add_separator()
+        filemenu.add_command(label = "Settings", command = self.open_settings_window)
         filemenu.add_separator()
         filemenu.add_command(label = "Exit", command = self.quit)
 
