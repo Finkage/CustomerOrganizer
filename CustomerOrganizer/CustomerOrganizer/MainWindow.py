@@ -200,14 +200,14 @@ class Main_Window(Tk):
             iteration += 1
 
 
-    # Change default action of tab key to go to next entry box instead of adding tab whitespace.
+    # Change default action of key to go to next entry box instead of adding tab whitespace.
     def focus_next_box(self, event):
         event.widget.tk_focusNext().focus()
-        return("break")
+        return "break"
 
-    # Change default action of shift-tab key to go to previous entry box.
+    # Change default action of key to go to previous entry box.
     def focus_previous_box(self, event):
         event.widget.tk_focusPrev().focus()
-        return("break")
+        return "break"
 
 
