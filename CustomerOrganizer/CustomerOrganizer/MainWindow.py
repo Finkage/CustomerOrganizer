@@ -78,7 +78,7 @@ class Main_Window(Tk):
 
 
     # saves customer data currently input into file
-    def save_customer(self):
+    def save_customer(self, save_as = False):
         tmpData = {}
         tmpVehicle = {}
         tmpNotes ={}
@@ -88,14 +88,12 @@ class Main_Window(Tk):
             tmpVehicle[data] = self.vehicle_widgets[data].get('1.0', 'end').strip()
         for data in self.note_widgets.keys():
             tmpNotes[data] = self.note_widgets[data].get('1.0', 'end').strip()
-        self.customer.save(tmpData, tmpVehicle, tmpNotes)
+        self.customer.save(tmpData, tmpVehicle, tmpNotes, save_as, window = self)
 
 
     # saves current customer as a new customer, must have different name or liscense plate number
-#    def save_customer_as(self):
-#        self.customer.close()
-#        self.customer.new()
-#        self.customer.save()
+    def save_customer_as(self):
+        self.save_customer(save_as = True)
 
 
     def open_settings_window(self):
@@ -114,7 +112,7 @@ class Main_Window(Tk):
         filemenu.add_command(label = "New Customer", command = self.new_customer)
         filemenu.add_command(label = "Open Customer", command = self.open_customer)
         filemenu.add_command(label = "Save Customer", command = self.save_customer)
-#        filemenu.add_command(label = "Save Customer as...", command = self.save_customer_as)
+        filemenu.add_command(label = "Save Customer as...", command = self.save_customer_as)
         filemenu.add_separator()
         filemenu.add_command(label = "Settings", command = self.open_settings_window)
         filemenu.add_separator()

@@ -68,7 +68,7 @@ class Customer():
             return None
 
 
-    def save(self, new_data, new_vehicle, new_notes):
+    def save(self, new_data, new_vehicle, new_notes, save_as, window = None):
         self.data = new_data
         self.vehicle = new_vehicle
         self.notes = new_notes
@@ -99,7 +99,10 @@ class Customer():
             return
         
         try:
-            self.file.save_file(total_data, customer_last_name + "_" + customer_first_name[0] + self.vehicle["VIN"][0:2])
+            if not save_as:
+                self.file.save_file(total_data, customer_last_name + "_" + customer_first_name[0] + self.vehicle["VIN"][0:2])
+            else:
+                self.file.save_as(total_data, window)
         except:
             messagebox.showerror("Error", self.ERROR_MESSAGE_SAVE)
 

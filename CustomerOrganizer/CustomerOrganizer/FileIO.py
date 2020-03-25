@@ -19,8 +19,9 @@ class FileIO():
                 print("Data folder created")
             except FileExistsError:
                 print("Data folder already exists")  
-
-            self.file_location = self.DATA_FOLDER_NAME + "\\" + file_name + ".txt"
+            
+            if self.file_location is "":
+                self.file_location = self.DATA_FOLDER_NAME + "\\" + file_name + ".txt"
             self.file = open(self.file_location, "w+")
             self.file.write(self.FORMATTED_DATE + "\n\n")
 
@@ -36,7 +37,8 @@ class FileIO():
                 self.file.write(line)
         self.file.close()
 
-
+    
+    # using filedialog the user opens a file of their choosing to be loaded into the program
     def load_file(self, window):
         load_window = window
         load_window.filename = filedialog.askopenfilename(initialdir = "C:\\Users\\Public\\Documents", 
@@ -52,6 +54,18 @@ class FileIO():
         self.file.close()
 
 
+    # using filedialogue we can save a file with the name of the choosing of the user while also using the save_file function
+    def save_as(self, file_data, window):
+        save_window = window
+        save_window.filename = filedialog.asksaveasfilename(initialdir = "C:\\Users\\Public\\Documents", 
+                                                            title = "Select File", 
+                                                            filetypes = (("Text Files", "*.txt"), ("All Files", "*.*")))
+        self.file_location = save_window.filename
+        
+        self.save_file(file_data, self.file_location)
+
+
+    # closes file to make sure there is nothing opened when there shouldnt be
     def close_file(self):
         if self.file is not None:
             self.file.close()
