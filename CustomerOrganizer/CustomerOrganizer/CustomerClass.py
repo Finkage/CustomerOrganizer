@@ -35,6 +35,9 @@ class Customer():
             lines = self.file.load_file(window)
             dictionary = None
 
+            if not lines:
+                return
+
             # Parse through lines in file and populate dictionary with values.
             for line in lines:
                 line_s = line.strip().lower()
