@@ -169,6 +169,7 @@ class Main_Window(Tk):
         # display all notes data into the frame
         self.create_widgets(self.customer.get_notes(), "note_info", 5, 40, 2)
 
+
     def create_widgets(self, dictionary, section, box_height, box_width, iteration):
         for key in dictionary.keys():
             data = dictionary[key]
@@ -178,7 +179,7 @@ class Main_Window(Tk):
             entry_label = Label(master = self.frames[section], text = key)
             entry_label.grid(row = iteration)
             
-            # If data has a lot of characters, expand box size.            
+            # If data has a lot of characters, expand box size.
             if len(data) > box_width * box_height:
                 new_box_height = box_height + len(data) / box_width
             
@@ -186,6 +187,9 @@ class Main_Window(Tk):
             entry_box = Text(master = self.frames[section], height = new_box_height, width = box_width, wrap = WORD)
             entry_box.grid(row = iteration, column = 1)
             entry_box.insert(END, data)
+            entry_box.bind("<Tab>", self.focus_next_box)
+            entry_box.bind("<Shift-Tab>", self.focus_previous_box)
+
             if section is "customer_info":
                 self.customer_widgets[key] = entry_box
             elif section is "vehicle_info":
@@ -194,3 +198,16 @@ class Main_Window(Tk):
                 self.note_widgets[key] = entry_box
 
             iteration += 1
+
+
+    # Change default action of tab key to go to next entry box instead of adding tab whitespace.
+    def focus_next_box(self, event):
+        event.widget.tk_focusNext().focus()
+        return("break")
+
+    # Change default action of shift-tab key to go to previous entry box.
+    def focus_previous_box(self, event):
+        event.widget.tk_focusPrev().focus()
+        return("break")
+
+
